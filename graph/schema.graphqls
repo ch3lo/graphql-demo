@@ -1,0 +1,50 @@
+# GraphQL schema example
+#
+# https://gqlgen.com/getting-started/
+
+type Caso {
+  id: ID!
+  orden: Orden! @goField(forceResolver: true)
+  representante: Representante @goField(forceResolver: true)
+  fechaCreacion: Date!
+}
+
+type Representante {
+  id: ID!
+  nombre: String!
+}
+
+type Orden {
+  id: ID!
+  producto: [Producto!]! @goField(forceResolver: true)
+}
+
+type Producto {
+  id: ID!
+  cantidad: Int!
+  nuevo: Boolean!
+}
+
+input NuevoCaso {
+  ordenId: String!
+  repId: String!
+}
+
+type Query {
+  casos: [Caso!]!
+}
+
+type Mutation {
+  crearCaso(input: NuevoCaso!): Caso!
+}
+
+type Subscription {
+  casoCreado: Caso!
+}
+
+scalar Date
+
+directive @goField(
+	forceResolver: Boolean
+	name: String
+) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
